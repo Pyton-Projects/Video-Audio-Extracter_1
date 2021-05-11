@@ -1,81 +1,82 @@
-
-from tkinter import * # Importing Are tkinter module for our gui
-r=Tk()
-
-saved_file_path = Label(r, fg='purple3')
-saved_file_path.place(x=1  , y=50)
-convert_button = Button(r, text='Convert To Audio', bg='lightblue', activebackground='lightblue',state=DISABLED)
-convert_button.place(x=175 + 10 + 2, y=110 + 50)
-open_file_path=Label(r,fg='purple1')
-open_file_path.place(x=1,y=75)
+# -----------------------------------------------------
+from tkinter import *
 from tkinter import filedialog
 from tkinter import messagebox 
-def  mp4_to_mp3():
-    import os
-    import pathlib
-    import moviepy.editor
+import moviepy.editor
+import time
+import os
+import tkinter.messagebox 
+def x():
+	question=messagebox.askquestion('Question','Are You Sure To Quit?')
+	if question=='yes':
+		import sys
+		sys.exit()
+	else:
+		None
+r.protocol('WM_DELETE_WINDOW',x)
+saved_file_path = Label(r, fg='purple1')
+Label_1=Label(r,text='Converting...')
+saved_file_path.place(x=1  , y=150)
+convert_button = Button(r, text='Convert To Audio', bg='lightblue', activebackground='lightblue',state=DISABLED)
+convert_button.place(x=175+2 , y=100)
+open_file_path=Label(r,fg='purple1')
+open_file_path.place(x=1,y=175)
+def video_to_audio():
     global asking_file_to_save 
     global star__
-    messagebox.showwarning('Warning!',' Remember Put File Extension (In Small Letters) At The End Of The File Name') # image converter,insertation of a mp3 to a mp4 # advance sppech recognization
+    messagebox.showwarning('Warning!',' Remember Put In Small Letters File Extension At The End Of The File Name') # image converter,insertation of a mp3 to a mp4 # advance sppech recognization
     asking_file_to_save=filedialog.asksaveasfile('wb',title='Save As',filetypes=(('mp3','*.mp3',),("mp3","*.mp3"),('wav','*.wav'),('ogg','*.ogg')))
-    star__=asking_file_to_save.name 
-    sre=str(os.path.basename(star__))    
-    user_video=moviepy.editor.VideoFileClip(star_a)# write audio file ! using open function
-    audio=user_video.audio.write_audiofile(sre)
-    messagebox.showinfo('Message','''Correct File Extenstion.(mp3,wav,ogg) Can Be Converted''')
-    global s
-    s=asking_file_to_save.name
-    path = f'{s}'
-    global extesntion
-    extesntion = (pathlib.Path(path)).suffix    
-def dialog_mp4():# write audio file in that location...
-    from tkinter import filedialog
-    global filename_
+    if asking_file_to_save==None:
+    	saved_file_path.config(text='')
+    	tkinter.messagebox.showwarning('Info','File Not Saved!')
+    if asking_file_to_save!=None:
+    	star__=asking_file_to_save.name 
+    	sre=str(os.path.basename(star__))    
+    	user_video=moviepy.editor.VideoFileClip(star_a)
+    	try:
+    		print('Converting... Depents On Your HDD Or SSD Read Write Speed!')
+    		audio=user_video.audio.write_audiofile(str(asking_file_to_save.name))
+    		os.startfile(str(asking_file_to_save.name))
+    		saved_file_path.config(text=f'Saved File Path:-{asking_file_to_save.name}')
+    	except ValueError:
+    		tkinter.messagebox.showwarning('Info','Please Put File Extension Or Correct File Extension At The End Of Filename Or Only wav,ogg,mp3 Can Be Saved!')
+    		saved_file_path.config(text='')
+def dialog_video():
     global extesntion_
     global star_a
     global path_opend_file_
-    filename_=filedialog.askopenfile('rb',filetype=(("mp4","*.mp4"),('mp4','*.mp4')),title='Open Mp4 File')
+    filename_=filedialog.askopenfile('rb',filetype=(("mp4","*.mp4"),('mp4','*.mp4'),('ogv','*.ogv'),('avi','*.avi')),title='Open Mp4 File')
+    if filename_==None:
+    	open_file_path.config(text='')
+    	tkinter.messagebox.showwarning('Info','File Not Imported!')
     try:
         path_opend_file_=(filename_.name)
         star_a=str(path_opend_file_)
         check=(star_a.endswith('.mp4'))
+        check_=(star_a.endswith('.avi'))
+        check_1=(star_a.endswith('.ogv'))
         if check==True:
-            convert_button.config(command=mp4_to_mp3)
+            convert_button.config(command=video_to_audio)
             convert_button.config(state=NORMAL)
             open_file_path.config(text=f'Opened File Path:-{path_opend_file_}')
-            length_of_opend_file=(len(path_opend_file_))
-        if length_of_opend_file>=70:
-            open_file_path.config(text=f'''Opend File Path:--{path_opend_file_}''')
-            open_file_path.place(x=1,y=60)
+        if check_==True:
+            convert_button.config(command=video_to_audio)
+            convert_button.config(state=NORMAL)
+            open_file_path.config(text=f'Opened File Path:-{path_opend_file_}')
+        if check_1==True:
+            convert_button.config(command=video_to_audio)
+            convert_button.config(state=NORMAL)
+            open_file_path.config(text=f'Opened File Path:-{path_opend_file_}')
     except Exception :
         convert_button.config(state=DISABLED)
-r.minsize(500,200)
+r.minsize(500,200) 
 r.maxsize(500,200)
-r.title('Mp4 To Mp3')
-r.geometry('500x300')
-heading=Label(r,text='Video (Mp4) File to Audio File ',fg='cyan4')
-heading.place(x=100+25+5+5+15,y=1)
-browse_mp4=Button(r,text='Browse A Mp4 File',bg='pink',activebackground='pink',command=dialog_mp4)
-browse_mp4.place(x=175,y=100+10)
-browse_mp4.bind('<Button-1>')
-r.mainloop()
-# mp3  to acc or acc to mp3
-# filedialog speech recognition,os  and how to sava a audio file and get the path of that file.
-# song lyrics game.
-# how to know the file extension of a file.
-# how  to change border colour in a entry widget/.
-# main comments:
-# HOW TO KNOW THE TKINTER APPLICATION IS NOT RESPONDING!
-# go and create an codecheif account!
-# lets goto five star coding!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# create image converter.
-# lets go to five star at code_chef
-# how to get file path when file saved...
-# how to save a audio file
-# how to stop tkinter to not responding!,
-# wav best sound quality!
-# fix lenthgh bug!!!
-# diffrent file video extenstion.
-# what is the extenstion of a FLODER.
-# MP3 FILE INSERTION IN A MP4 FILE!
-# my 9 projects:
+r.title('Video To Audio')
+r.geometry('500x200')
+heading=Label(r,text='Video File to Audio File ',fg='cyan4',font=('Font',10))
+heading.place(x=100+25+5+5+5+15,y=1)
+browse_mp4=Button(r,text='Browse A Video File',bg='pink',activebackground='pink',command=dialog_video)
+browse_mp4.place(x=172,y=55)
+mainloop()
+# -----------------------------------------------------
+#
