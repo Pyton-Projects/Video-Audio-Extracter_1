@@ -1,7 +1,9 @@
 # -----------------------------------------------------
 from tkinter import *
+from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox 
+from ttkthemes import ThemedTk
 import moviepy.editor
 import time
 import os
@@ -13,14 +15,15 @@ def x():
 		sys.exit()
 	else:
 		None
-r=Tk()
+r=ThemedTk(themebg=True)
+r.set_theme('arc')
 r.protocol('WM_DELETE_WINDOW',x)
-saved_file_path = Label(r, fg='purple1')
-Label_1=Label(r,text='Converting...')
+saved_file_path = ttk.Label(r)
+
 saved_file_path.place(x=1  , y=150)
-convert_button = Button(r, text='Convert To Audio', bg='lightblue', activebackground='lightblue',state=DISABLED)
+convert_button = ttk.Button(r, text='Convert To Audio',state=DISABLED)
 convert_button.place(x=175+2 , y=100)
-open_file_path=Label(r,fg='purple1')
+open_file_path=ttk.Label(r)
 open_file_path.place(x=1,y=175)
 def video_to_audio():
     global asking_file_to_save 
@@ -74,9 +77,9 @@ r.minsize(500,200)
 r.maxsize(500,200)
 r.title('Video To Audio')
 r.geometry('500x200')
-heading=Label(r,text='Video File to Audio File ',fg='cyan4',font=('Font',10))
+heading=ttk.Label(r,text='Video File to Audio File ',font=('Font',10))
 heading.place(x=100+25+5+5+5+15,y=1)
-browse_mp4=Button(r,text='Browse A Video File',bg='pink',activebackground='pink',command=dialog_video)
+browse_mp4=ttk.Button(r,text='Browse A Video File',command=dialog_video)
 browse_mp4.place(x=172,y=55)
 mainloop()
 # -----------------------------------------------------
