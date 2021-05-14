@@ -13,6 +13,7 @@ def x():
 		sys.exit()
 	else:
 		None
+r=Tk()
 r.protocol('WM_DELETE_WINDOW',x)
 saved_file_path = Label(r, fg='purple1')
 Label_1=Label(r,text='Converting...')
